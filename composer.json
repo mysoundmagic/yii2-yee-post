@@ -1,7 +1,6 @@
 {
     "name": "yeesoft/yii2-yee-post",
     "description": "Yee Post",
-    "type": "yii2-extension",
     "license": "BSD-3-Clause",
     "authors": [
         {
