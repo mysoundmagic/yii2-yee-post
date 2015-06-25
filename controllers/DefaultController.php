@@ -2,19 +2,18 @@
 
 namespace yeesoft\post\controllers;
 
-use yeesoft\post\models\Post;
-use yeesoft\post\models\PostSearch;
-use yeesoft\base\controllers\AdminDefaultController;
+use yeesoft\base\controllers\admin\BaseController;
 
 /**
  * PostController implements the CRUD actions for Post model.
  */
-class PostController extends AdminDefaultController {
+class DefaultController extends BaseController
+{
+    public $modelClass       = 'yeesoft\post\models\Post';
+    public $modelSearchClass = 'yeesoft\post\models\search\PostSearch';
 
-    public $modelClass = 'common\models\Post';
-    public $modelSearchClass = 'common\models\search\PostSearch';
-
-    protected function getRedirectPage($action, $model = null) {
+    protected function getRedirectPage($action, $model = null)
+    {
         switch ($action) {
             case 'update':
                 return ['update', 'id' => $model->id];
@@ -26,5 +25,4 @@ class PostController extends AdminDefaultController {
                 return parent::getRedirectPage($action, $model);
         }
     }
-
 }

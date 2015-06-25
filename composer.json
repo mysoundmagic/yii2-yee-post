@@ -9,7 +9,9 @@
         }
     ],
     "require": {
-        "yeesoft/yii2-yee-base": "dev-master"
+        "yeesoft/yii2-yee-base": "dev-master",
+        "yiisoft/yii2-jui": "*",
+        "webvimark/grid-page-size": "dev-master"
     },
     "autoload": {
         "psr-4": {

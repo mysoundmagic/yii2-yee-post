@@ -1,14 +1,13 @@
 <?php
 
-use yii\helpers\Html;
+use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
+use yeesoft\post\models\Post;
 use yeesoft\usermanagement\models\User;
 use yeesoft\usermanagement\components\GhostHtml;
-use yeesoft\post\models\Post;
-use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Post */
+/* @var $model yeesoft\post\models\Post */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -16,9 +15,9 @@ use yii\jui\DatePicker;
 
     <?php
     $form = ActiveForm::begin([
-                'id' => 'post-form',
-                'validateOnBlur' => false,
-            ])
+            'id' => 'post-form',
+            'validateOnBlur' => false,
+        ])
     ?>
 
     <div class="row">
@@ -56,16 +55,26 @@ use yii\jui\DatePicker;
                         </div>
                         <div class="form-group">
                             <?php if ($model->isNewRecord): ?>
-                                <?= GhostHtml::submitButton('<span class="glyphicon glyphicon-plus-sign"></span> Create', ['class' => 'btn btn-success']) ?>
                                 <?=
-                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Cancel', '../post', [
+                                GhostHtml::submitButton('<span class="glyphicon glyphicon-plus-sign"></span> Create',
+                                    ['class' => 'btn btn-success'])
+                                ?>
+                                <?=
+                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Cancel',
+                                    '../post',
+                                    [
                                     'class' => 'btn btn-default',
                                 ])
                                 ?>
                             <?php else: ?>
-                                <?= GhostHtml::submitButton('<span class="glyphicon glyphicon-ok"></span> Save', ['class' => 'btn btn-primary']) ?>
                                 <?=
-                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Delete', ['delete', 'id' => $model->id], [
+                                GhostHtml::submitButton('<span class="glyphicon glyphicon-ok"></span> Save',
+                                    ['class' => 'btn btn-primary'])
+                                ?>
+                                <?=
+                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Delete',
+                                    ['delete', 'id' => $model->id],
+                                    [
                                     'class' => 'btn btn-default',
                                     'data' => [
                                         'confirm' => 'Are you sure you want to delete this item?',
@@ -83,15 +92,30 @@ use yii\jui\DatePicker;
                 <div class="panel-body">
 
                     <div class="record-info">
-                        <?= $form->field($model, 'published_at')->widget(DatePicker::className(), [ 'options' => ['class' => 'form-control']]); ?>
+                        <?=
+                        $form->field($model, 'published_at')->widget(DatePicker::className(),
+                            [ 'options' => ['class' => 'form-control']]);
+                        ?>
 
-                        <?= $form->field($model, 'status')->dropDownList(Post::getStatusList(), ['class' => '']) ?>
+                        <?=
+                        $form->field($model, 'status')->dropDownList(Post::getStatusList(),
+                            ['class' => ''])
+                        ?>
 
-                        <?= $form->field($model, 'type')->dropDownList(Post::getTypeList(), ['class' => '']) ?>
+                        <?=
+                        $form->field($model, 'type')->dropDownList(Post::getTypeList(),
+                            ['class' => ''])
+                        ?>
 
-                        <?= $form->field($model, 'author_id')->dropDownList(User::getUsersList(), ['class' => '']) ?>
+                        <?=
+                        $form->field($model, 'author_id')->dropDownList(User::getUsersList(),
+                            ['class' => ''])
+                        ?>
 
-                        <?= $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList(), ['class' => '']) ?>
+                        <?=
+                        $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList(),
+                            ['class' => ''])
+                        ?>
                     </div>
                 </div>
             </div>
