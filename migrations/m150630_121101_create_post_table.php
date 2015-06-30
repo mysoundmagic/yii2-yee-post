@@ -27,7 +27,6 @@ class m150630_121101_create_post_table extends Migration
             'created_at' => Schema::TYPE_INTEGER.' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER.' NOT NULL',
             'revision' => Schema::TYPE_INTEGER.' NOT NULL DEFAULT "1"',
-            'PRIMARY KEY (id)',
             ], $tableOptions);
 
         $this->createIndex('post_slug', 'post', 'slug');
