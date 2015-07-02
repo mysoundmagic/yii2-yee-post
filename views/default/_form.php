@@ -3,6 +3,7 @@
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
 use yeesoft\post\models\Post;
+use yeesoft\image\widgets\TinyMce;
 use yeesoft\usermanagement\models\User;
 use yeesoft\usermanagement\components\GhostHtml;
 
@@ -30,7 +31,8 @@ use yeesoft\usermanagement\components\GhostHtml;
 
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-                    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+                    <?= $form->field($model, 'content')->widget(TinyMce::className()); ?>
+
                 </div>
 
             </div>
