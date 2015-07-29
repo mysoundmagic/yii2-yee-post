@@ -1,19 +1,19 @@
 <?php
 
-use yii\helpers\Url;
-use yii\helpers\Html;
-use yii\widgets\Pjax;
-use yeesoft\grid\GridView;
-use yeesoft\post\models\Post;
-use yeesoft\gridquicklinks\GridQuickLinks;
-use yeesoft\usermanagement\components\GhostHtml;
 use webvimark\extensions\GridPageSize\GridPageSize;
+use yeesoft\grid\GridView;
+use yeesoft\gridquicklinks\GridQuickLinks;
+use yeesoft\post\models\Post;
+use yeesoft\usermanagement\components\GhostHtml;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel yeesoft\post\models\search\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = 'Posts';
+$this->title = 'Posts';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
@@ -74,20 +74,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\CheckboxColumn', 'options' => ['style' => 'width:10px']],
                     [
                         'class' => 'yeesoft\grid\columns\TitleActionColumn',
-                        'title' => function(Post $model) {
-                        return Html::a($model->title,
-                                Url::to('../'.$model->slug), ['data-pjax' => 0]);
-                    },
+                        'title' => function (Post $model) {
+                            return Html::a($model->title,
+                                Url::to('../' . $model->slug), ['data-pjax' => 0]);
+                        },
                     ],
                     [
                         'attribute' => 'author_id',
                         'filter' => yeesoft\usermanagement\models\User::getUsersList(),
                         'filterInputOptions' => [],
-                        'value' => function(Post $model) {
-                        return Html::a($model->author->username,
+                        'value' => function (Post $model) {
+                            return Html::a($model->author->username,
                                 ['user/view', 'id' => $model->author_id],
                                 ['data-pjax' => 0]);
-                    },
+                        },
                         'format' => 'raw',
                         'options' => ['style' => 'width:180px'],
                     ],
@@ -100,11 +100,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'yeesoft\grid\columns\DateFilterColumn',
                         'attribute' => 'published_at',
-                        'value' => function(Post $model) {
-                        return '<span style="font-size:85%;" class="label label-'
-                            .((time() >= $model->published_at) ? 'primary' : 'default').'">'
-                            .$model->publishedDate.'</span>';
-                    },
+                        'value' => function (Post $model) {
+                            return '<span style="font-size:85%;" class="label label-'
+                            . ((time() >= $model->published_at) ? 'primary' : 'default') . '">'
+                            . $model->publishedDate . '</span>';
+                        },
                         'format' => 'raw',
                         'options' => ['style' => 'width:150px'],
                     ],

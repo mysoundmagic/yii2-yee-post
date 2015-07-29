@@ -1,7 +1,7 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m150630_121101_create_post_table extends Migration
 {
@@ -15,24 +15,21 @@ class m150630_121101_create_post_table extends Migration
 
         $this->createTable('post',
             [
-            'id' => 'pk',
-            'author_id' => Schema::TYPE_INTEGER.'(11) NOT NULL',
-            'slug' => Schema::TYPE_STRING.'(200) NOT NULL DEFAULT ""',
-            'title' => Schema::TYPE_TEXT.' NOT NULL',
-            'type' => Schema::TYPE_STRING.'(20) NOT NULL DEFAULT "post" COMMENT "post,page"',
-            'status' => Schema::TYPE_INTEGER.'(1) unsigned NOT NULL DEFAULT "0" COMMENT "0-pending,1-published"',
-            'comment_status' => Schema::TYPE_INTEGER.'(1) unsigned NOT NULL DEFAULT "1" COMMENT "0-closed,1-open"',
-            'content' => Schema::TYPE_TEXT.' NOT NULL',
-            'published_at' => Schema::TYPE_INTEGER.' DEFAULT NULL',
-            'created_at' => Schema::TYPE_INTEGER.' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER.' NOT NULL',
-            'revision' => Schema::TYPE_INTEGER.' NOT NULL DEFAULT "1"',
+                'id' => 'pk',
+                'author_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
+                'slug' => Schema::TYPE_STRING . '(200) NOT NULL DEFAULT ""',
+                'title' => Schema::TYPE_TEXT . ' NOT NULL',
+                'status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "0" COMMENT "0-pending,1-published"',
+                'comment_status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "1" COMMENT "0-closed,1-open"',
+                'content' => Schema::TYPE_TEXT . ' NOT NULL',
+                'published_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+                'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'revision' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT "1"',
             ], $tableOptions);
 
         $this->createIndex('post_slug', 'post', 'slug');
         $this->createIndex('post_status', 'post', 'status');
-        $this->createIndex('post_type', 'post', 'type');
-        $this->createIndex('post_type_status', 'post', ['type', 'status']);
         $this->createIndex('post_author', 'post', 'author_id');
     }
 

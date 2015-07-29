@@ -7,16 +7,11 @@ namespace yeesoft\post\models;
  *
  * @see Post
  */
-class PostQuery extends \yii\db\ActiveQuery {
+class PostQuery extends \yii\db\ActiveQuery
+{
 
-    public function init() {
-        $modelClass = $this->modelClass;
-        $tableName = $modelClass::tableName();
-        $this->andWhere([$tableName . '.type' => Post::TYPE_POST]);
-        parent::init();
-    }
-
-    public function active() {
+    public function active()
+    {
         $this->andWhere(['status' => Post::STATUS_PUBLISHED]);
         return $this;
     }
@@ -25,7 +20,8 @@ class PostQuery extends \yii\db\ActiveQuery {
      * @inheritdoc
      * @return Post[]|array
      */
-    public function all($db = null) {
+    public function all($db = null)
+    {
         return parent::all($db);
     }
 
@@ -33,7 +29,8 @@ class PostQuery extends \yii\db\ActiveQuery {
      * @inheritdoc
      * @return Post|array|null
      */
-    public function one($db = null) {
+    public function one($db = null)
+    {
         return parent::one($db);
     }
 

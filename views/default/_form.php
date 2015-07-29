@@ -1,11 +1,11 @@
 <?php
 
+use yeesoft\image\widgets\TinyMce;
+use yeesoft\post\models\Post;
+use yeesoft\usermanagement\components\GhostHtml;
+use yeesoft\usermanagement\models\User;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
-use yeesoft\post\models\Post;
-use yeesoft\image\widgets\TinyMce;
-use yeesoft\usermanagement\models\User;
-use yeesoft\usermanagement\components\GhostHtml;
 
 /* @var $this yii\web\View */
 /* @var $model yeesoft\post\models\Post */
@@ -16,9 +16,9 @@ use yeesoft\usermanagement\components\GhostHtml;
 
     <?php
     $form = ActiveForm::begin([
-            'id' => 'post-form',
-            'validateOnBlur' => false,
-        ])
+        'id' => 'post-form',
+        'validateOnBlur' => false,
+    ])
     ?>
 
     <div class="row">
@@ -44,15 +44,21 @@ use yeesoft\usermanagement\components\GhostHtml;
                 <div class="panel-body">
                     <div class="record-info">
                         <div class="form-group">
-                            <label class="control-label" style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['created_at'] ?>: </label>
+                            <label class="control-label"
+                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['created_at'] ?>
+                                : </label>
                             <span><?= $model->createdDate ?></span>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['updated_at'] ?>: </label>
+                            <label class="control-label"
+                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['updated_at'] ?>
+                                : </label>
                             <span><?= $model->updatedTime ?></span>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['revision'] ?>: </label>
+                            <label class="control-label"
+                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['revision'] ?>
+                                : </label>
                             <span><?= $model->getRevision() ?></span>
                         </div>
                         <div class="form-group">
@@ -62,11 +68,8 @@ use yeesoft\usermanagement\components\GhostHtml;
                                     ['class' => 'btn btn-success'])
                                 ?>
                                 <?=
-                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Cancel',
-                                    '../post',
-                                    [
-                                    'class' => 'btn btn-default',
-                                ])
+                                GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Cancel', '../post',
+                                    ['class' => 'btn btn-default',])
                                 ?>
                             <?php else: ?>
                                 <?=
@@ -77,12 +80,12 @@ use yeesoft\usermanagement\components\GhostHtml;
                                 GhostHtml::a('<span class="glyphicon glyphicon-remove"></span> Delete',
                                     ['delete', 'id' => $model->id],
                                     [
-                                    'class' => 'btn btn-default',
-                                    'data' => [
-                                        'confirm' => 'Are you sure you want to delete this item?',
-                                        'method' => 'post',
-                                    ],
-                                ])
+                                        'class' => 'btn btn-default',
+                                        'data' => [
+                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'method' => 'post',
+                                        ],
+                                    ])
                                 ?>
                             <?php endif; ?>
                         </div>
@@ -94,30 +97,13 @@ use yeesoft\usermanagement\components\GhostHtml;
                 <div class="panel-body">
 
                     <div class="record-info">
-                        <?=
-                        $form->field($model, 'published_at')->widget(DatePicker::className(),
-                            [ 'options' => ['class' => 'form-control']]);
-                        ?>
+                        <?= $form->field($model, 'published_at')->widget(DatePicker::className(), ['options' => ['class' => 'form-control']]); ?>
 
-                        <?=
-                        $form->field($model, 'status')->dropDownList(Post::getStatusList(),
-                            ['class' => ''])
-                        ?>
+                        <?= $form->field($model, 'status')->dropDownList(Post::getStatusList(), ['class' => '']) ?>
 
-                        <?=
-                        $form->field($model, 'type')->dropDownList(Post::getTypeList(),
-                            ['class' => ''])
-                        ?>
+                        <?= $form->field($model, 'author_id')->dropDownList(User::getUsersList(), ['class' => '']) ?>
 
-                        <?=
-                        $form->field($model, 'author_id')->dropDownList(User::getUsersList(),
-                            ['class' => ''])
-                        ?>
-
-                        <?=
-                        $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList(),
-                            ['class' => ''])
-                        ?>
+                        <?= $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList(), ['class' => '']) ?>
                     </div>
                 </div>
             </div>

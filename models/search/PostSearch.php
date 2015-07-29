@@ -2,32 +2,35 @@
 
 namespace yeesoft\post\models\search;
 
+use yeesoft\post\models\Post;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yeesoft\post\models\Post;
 
 /**
  * PostSearch represents the model behind the search form about `common\models\Post`.
  */
-class PostSearch extends Post {
+class PostSearch extends Post
+{
 
     public $published_at_operand;
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['id', 'author_id', 'status', 'comment_status', 'revision'], 'integer'],
-            [['published_at_operand', 'slug', 'title', 'type', 'content', 'published_at', 'created_at', 'updated_at'], 'safe'],
+            [['published_at_operand', 'slug', 'title', 'content', 'published_at', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios() {
+    public function scenarios()
+    {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,7 +42,8 @@ class PostSearch extends Post {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params)
+    {
         $query = Post::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -75,9 +79,8 @@ class PostSearch extends Post {
         $query->andFilterWhere([($this->published_at_operand) ? $this->published_at_operand : '=', 'published_at', ($this->published_at) ? strtotime($this->published_at) : null]);
 
         $query->andFilterWhere(['like', 'slug', $this->slug])
-                ->andFilterWhere(['like', 'title', $this->title])
-                ->andFilterWhere(['like', 'type', $this->type])
-                ->andFilterWhere(['like', 'content', $this->content]);
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'content', $this->content]);
 
         return $dataProvider;
     }

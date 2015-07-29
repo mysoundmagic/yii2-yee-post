@@ -9,7 +9,7 @@ use yeesoft\base\controllers\admin\BaseController;
  */
 class DefaultController extends BaseController
 {
-    public $modelClass       = 'yeesoft\post\models\Post';
+    public $modelClass = 'yeesoft\post\models\Post';
     public $modelSearchClass = 'yeesoft\post\models\search\PostSearch';
 
     protected function getRedirectPage($action, $model = null)

@@ -2,9 +2,9 @@
 
 namespace yeesoft\post\models;
 
-use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 use yeesoft\usermanagement\models\User;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "post".
@@ -13,7 +13,6 @@ use yeesoft\usermanagement\models\User;
  * @property integer $author
  * @property string $slug
  * @property string $title
- * @property string $type
  * @property integer $status
  * @property integer $comment_status
  * @property string $content
@@ -22,26 +21,27 @@ use yeesoft\usermanagement\models\User;
  * @property string $updated_at
  * @property integer $revision
  */
-class Post extends ActiveRecord {
+class Post extends ActiveRecord
+{
 
     const STATUS_PENDING = 0;
     const STATUS_PUBLISHED = 1;
     const COMMENT_STATUS_CLOSED = 0;
     const COMMENT_STATUS_OPEN = 1;
-    const TYPE_POST = 'post';
-    const TYPE_PAGE = 'page';
 
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'post';
     }
 
     /**
      * @inheritdoc
      */
-    public function init() {
+    public function init()
+    {
         parent::init();
         $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'updateRevision']);
     }
@@ -49,7 +49,8 @@ class Post extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             TimestampBehavior::className(),
         ];
@@ -58,14 +59,14 @@ class Post extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['author_id', 'title', 'content'], 'required'],
             [['author_id', 'status', 'comment_status', 'revision'], 'integer'],
             [['title', 'content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 200],
-            [['type'], 'string', 'max' => 20],
             ['published_at', 'date', 'timestampAttribute' => 'published_at'],
             ['published_at', 'default', 'value' => time()],
         ];
@@ -74,13 +75,13 @@ class Post extends ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'author_id' => 'Author',
             'slug' => 'Slug',
             'title' => 'Title',
-            'type' => 'Type',
             'status' => 'Status',
             'comment_status' => 'Comment Status',
             'content' => 'Content',
@@ -95,43 +96,53 @@ class Post extends ActiveRecord {
      * @inheritdoc
      * @return PostQuery the active query used by this AR class.
      */
-    public static function find() {
+    public static function find()
+    {
         return new PostQuery(get_called_class());
     }
 
-    public function getAuthor() {
+    public function getAuthor()
+    {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 
-    public function getPublishedDate() {
+    public function getPublishedDate()
+    {
         return date('Y-m-d', ($this->isNewRecord) ? time() : $this->published_at);
     }
 
-    public function getUpdatedDate() {
+    public function getUpdatedDate()
+    {
         return date('Y-m-d', ($this->isNewRecord) ? time() : $this->updated_at);
     }
 
-    public function getUpdatedTime() {
+    public function getUpdatedTime()
+    {
         return date('Y-m-d H:i', ($this->isNewRecord) ? time() : $this->updated_at);
     }
 
-    public function getCreatedDate() {
+    public function getCreatedDate()
+    {
         return date('Y-m-d', ($this->isNewRecord) ? time() : $this->created_at);
     }
 
-    public function getStatusText() {
+    public function getStatusText()
+    {
         return $this->getStatusList()[$this->status];
     }
-    
-    public function getCommentStatusText() {
+
+    public function getCommentStatusText()
+    {
         return $this->getCommentStatusList()[$this->comment_status];
     }
 
-    public function getRevision() {
+    public function getRevision()
+    {
         return ($this->isNewRecord) ? 1 : $this->revision;
     }
 
-    public function updateRevision() {
+    public function updateRevision()
+    {
         $this->updateCounters(['revision' => 1]);
     }
 
@@ -139,7 +150,8 @@ class Post extends ActiveRecord {
      * getTypeList
      * @return array
      */
-    public static function getStatusList() {
+    public static function getStatusList()
+    {
         return [
             self::STATUS_PENDING => 'Pending',
             self::STATUS_PUBLISHED => 'Published'
@@ -150,7 +162,8 @@ class Post extends ActiveRecord {
      * getStatusOptionsList
      * @return array
      */
-    public static function getStatusOptionsList() {
+    public static function getStatusOptionsList()
+    {
         return [
             [self::STATUS_PENDING, 'Pending', 'default'],
             [self::STATUS_PUBLISHED, 'Published', 'primary']
@@ -161,32 +174,11 @@ class Post extends ActiveRecord {
      * getCommentStatusList
      * @return array
      */
-    public static function getCommentStatusList() {
+    public static function getCommentStatusList()
+    {
         return [
             self::COMMENT_STATUS_OPEN => 'Open',
             self::COMMENT_STATUS_CLOSED => 'Closed'
-        ];
-    }
-
-    /**
-     * getTypeList
-     * @return array
-     */
-    public static function getTypeList() {
-        return [
-            self::TYPE_POST => 'Post',
-            self::TYPE_PAGE => 'Page'
-        ];
-    }
-
-    /**
-     * getCommentStatusList
-     * @return array
-     */
-    public static function getTypeOptionsList() {
-        return [
-            [self::TYPE_POST, 'Post', 'info'],
-            [self::TYPE_PAGE, 'Page', 'warning']
         ];
     }
 

@@ -1,14 +1,14 @@
 <?php
 
+use yeesoft\usermanagement\components\GhostHtml;
+use yeesoft\usermanagement\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yeesoft\usermanagement\models\User;
-use yeesoft\usermanagement\components\GhostHtml;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 
-$this->title                   = $model->title;
+$this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?=
                 GhostHtml::a('Delete', ['delete', 'id' => $model->id],
                     [
-                    'class' => 'btn btn-sm btn-default',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this user?',
-                        'method' => 'post',
-                    ],
-                ])
+                        'class' => 'btn btn-sm btn-default',
+                        'data' => [
+                            'confirm' => 'Are you sure you want to delete this user?',
+                            'method' => 'post',
+                        ],
+                    ])
                 ?>
                 <?=
                 GhostHtml::a('Add New', ['create'],

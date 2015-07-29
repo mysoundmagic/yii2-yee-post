@@ -9,7 +9,7 @@ class PostModule extends \yii\base\Module
      *
      * @var string
      */
-    public $post_table          = '{{%post}}';
+    public $post_table = '{{%post}}';
     public $controllerNamespace = 'yeesoft\post\controllers';
 
     /**
