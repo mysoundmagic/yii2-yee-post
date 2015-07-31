@@ -8,14 +8,21 @@ use yeesoft\post\models\search\PostSearch;
 class Posts extends \yii\base\Widget
 {
     /**
-     * Widget Height
+     * Widget height
      */
-    public $widgetHeight = 'auto';
+    public $height = 'auto';
 
     /**
-     * Widget Width
+     * Widget width
      */
-    public $widgetWidth = '4';
+    public $width = '8';
+
+    /**
+     * Widget position
+     *
+     * @var string
+     */
+    public $position = 'left';
 
     /**
      * Most recent post limit
@@ -51,8 +58,9 @@ class Posts extends \yii\base\Widget
         }
 
         return $this->render('posts', [
-            'widgetHeight' => $this->widgetHeight,
-            'widgetWidth' => $this->widgetWidth,
+            'height' => $this->height,
+            'width' => $this->width,
+            'position' => $this->position,
             'posts' => $this->options,
             'recentPosts' => $recentPosts,
         ]);

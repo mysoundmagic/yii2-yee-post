@@ -4,7 +4,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 ?>
 
-<div class="col-lg-<?= $widgetWidth ?> widget-height-<?= $widgetHeight ?>">
+<div class="pull-<?= $position ?> col-lg-<?= $width ?> widget-height-<?= $height ?>">
     <div class="panel panel-default" style="position:relative; padding-bottom:15px;">
         <div class="panel-heading">Posts Activity</div>
         <div class="panel-body">
