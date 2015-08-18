@@ -2,7 +2,7 @@
 
 namespace yeesoft\post\controllers;
 
-use yeesoft\base\controllers\admin\BaseController;
+use yeesoft\controllers\admin\BaseController;
 
 /**
  * PostController implements the CRUD actions for Post model.

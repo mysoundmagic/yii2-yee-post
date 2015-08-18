@@ -2,7 +2,7 @@
 
 namespace yeesoft\post\models;
 
-use yeesoft\usermanagement\models\User;
+use yeesoft\models\User;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
