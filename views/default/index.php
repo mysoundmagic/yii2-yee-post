@@ -1,9 +1,10 @@
 <?php
 
 use webvimark\extensions\GridPageSize\GridPageSize;
+use yeesoft\grid\GridQuickLinks;
 use yeesoft\grid\GridView;
-use yeesoft\gridquicklinks\GridQuickLinks;
 use yeesoft\helpers\Html;
+use yeesoft\models\User;
 use yeesoft\post\models\Post;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
@@ -20,10 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-sm-12">
             <h3 class="lte-hide-title page-title"><?= Html::encode($this->title) ?></h3>
-            <?=
-            Html::a('Add New', ['create'],
-                ['class' => 'btn btn-sm btn-primary'])
-            ?>
+            <?= Html::a('Add New', ['/post/default/create'], ['class' => 'btn btn-sm btn-primary']) ?>
         </div>
     </div>
 
@@ -73,21 +71,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\CheckboxColumn', 'options' => ['style' => 'width:10px']],
                     [
                         'class' => 'yeesoft\grid\columns\TitleActionColumn',
+                        'controller' => '/post/default',
                         'title' => function (Post $model) {
-                            return Html::a($model->title,
-                                Url::to('../' . $model->slug), ['data-pjax' => 0]);
+                            return Html::a($model->title, ['/post/default/view', 'id' => $model->id], ['data-pjax' => 0]);
                         },
                     ],
                     [
                         'attribute' => 'author_id',
-                        'filter' => yeesoft\usermanagement\models\User::getUsersList(),
+                        'filter' => yeesoft\models\User::getUsersList(),
                         'filterInputOptions' => [],
                         'value' => function (Post $model) {
                             return Html::a($model->author->username,
-                                ['user/view', 'id' => $model->author_id],
+                                ['/user/default/view', 'id' => $model->author_id],
                                 ['data-pjax' => 0]);
                         },
                         'format' => 'raw',
+                        'visible' => User::hasPermission('viewUsers'),
                         'options' => ['style' => 'width:180px'],
                     ],
                     [

@@ -2,6 +2,7 @@
 
 namespace yeesoft\post\widgets\dashboard;
 
+use yeesoft\models\User;
 use yeesoft\post\models\Post;
 use yeesoft\post\models\search\PostSearch;
 
@@ -46,23 +47,25 @@ class Posts extends \yii\base\Widget
 
     public function run()
     {
-        $searchModel = new PostSearch();
-        $formName = $searchModel->formName();
+        if (User::hasPermission('viewPosts')) {
+            $searchModel = new PostSearch();
+            $formName = $searchModel->formName();
 
-        $recentPosts = Post::find()->orderBy(['id' => SORT_DESC])->limit($this->recentLimit)->all();
+            $recentPosts = Post::find()->orderBy(['id' => SORT_DESC])->limit($this->recentLimit)->all();
 
-        foreach ($this->options as &$option) {
-            $count = Post::find()->filterWhere($option['filterWhere'])->count();
-            $option['count'] = $count;
-            $option['url'] = [$this->indexAction, $formName => $option['filterWhere']];
+            foreach ($this->options as &$option) {
+                $count = Post::find()->filterWhere($option['filterWhere'])->count();
+                $option['count'] = $count;
+                $option['url'] = [$this->indexAction, $formName => $option['filterWhere']];
+            }
+
+            return $this->render('posts', [
+                'height' => $this->height,
+                'width' => $this->width,
+                'position' => $this->position,
+                'posts' => $this->options,
+                'recentPosts' => $recentPosts,
+            ]);
         }
-
-        return $this->render('posts', [
-            'height' => $this->height,
-            'width' => $this->width,
-            'position' => $this->position,
-            'posts' => $this->options,
-            'recentPosts' => $recentPosts,
-        ]);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use yeesoft\helpers\Html;
-use yeesoft\image\widgets\TinyMce;
+use yeesoft\media\widgets\TinyMce;
 use yeesoft\models\User;
 use yeesoft\post\models\Post;
 use yii\jui\DatePicker;
@@ -44,52 +44,43 @@ use yii\widgets\ActiveForm;
                 <div class="panel-body">
                     <div class="record-info">
                         <div class="form-group">
-                            <label class="control-label"
-                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['created_at'] ?>
-                                : </label>
+                            <label class="control-label" style="float: left; padding-right: 5px;">
+                                <?= $model->attributeLabels()['created_at'] ?> :
+                            </label>
                             <span><?= $model->createdDate ?></span>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"
-                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['updated_at'] ?>
-                                : </label>
+                            <label class="control-label" style="float: left; padding-right: 5px;">
+                                <?= $model->attributeLabels()['updated_at'] ?> :
+                            </label>
                             <span><?= $model->updatedTime ?></span>
                         </div>
                         <div class="form-group">
-                            <label class="control-label"
-                                   style="float: left; padding-right: 5px;"><?= $model->attributeLabels()['revision'] ?>
-                                : </label>
+                            <label class="control-label" style="float: left; padding-right: 5px;">
+                                <?= $model->attributeLabels()['revision'] ?> :
+                            </label>
                             <span><?= $model->getRevision() ?></span>
                         </div>
                         <div class="form-group">
                             <?php if ($model->isNewRecord): ?>
-                                <?=
-                                Html::submitButton('<span class="glyphicon glyphicon-plus-sign"></span> Create',
-                                    ['class' => 'btn btn-success'])
-                                ?>
-                                <?=
-                                Html::a('<span class="glyphicon glyphicon-remove"></span> Cancel',
-                                    '../post',
-                                    [
-                                        'class' => 'btn btn-default',
-                                    ])
-                                ?>
+                                <?= Html::submitButton('<span class="glyphicon glyphicon-plus-sign"></span> Create', ['class' => 'btn btn-primary']) ?>
+
+                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Cancel',
+                                    ['/post/default/index'],
+                                    ['class' => 'btn btn-default']
+                                ) ?>
                             <?php else: ?>
-                                <?=
-                                Html::submitButton('<span class="glyphicon glyphicon-ok"></span> Save',
-                                    ['class' => 'btn btn-primary'])
-                                ?>
-                                <?=
-                                Html::a('<span class="glyphicon glyphicon-remove"></span> Delete',
-                                    ['delete', 'id' => $model->id],
+                                <?= Html::submitButton('<span class="glyphicon glyphicon-ok"></span> Save', ['class' => 'btn btn-primary']) ?>
+
+                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Delete',
+                                    ['/post/default/delete', 'id' => $model->id],
                                     [
                                         'class' => 'btn btn-default',
                                         'data' => [
                                             'confirm' => 'Are you sure you want to delete this item?',
                                             'method' => 'post',
                                         ],
-                                    ])
-                                ?>
+                                    ]) ?>
                             <?php endif; ?>
                         </div>
                     </div>
