@@ -2,6 +2,7 @@
 
 namespace yeesoft\post\models;
 
+use yeesoft\models\OwnerAccess;
 use yeesoft\models\User;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -21,7 +22,7 @@ use yii\db\ActiveRecord;
  * @property string $updated_at
  * @property integer $revision
  */
-class Post extends ActiveRecord
+class Post extends ActiveRecord implements OwnerAccess
 {
 
     const STATUS_PENDING = 0;
@@ -62,13 +63,14 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['author_id', 'title', 'content'], 'required'],
+            [['title', 'content'], 'required'],
             [['author_id', 'status', 'comment_status', 'revision'], 'integer'],
             [['title', 'content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 200],
             ['published_at', 'date', 'timestampAttribute' => 'published_at'],
             ['published_at', 'default', 'value' => time()],
+            ['author_id', 'default', 'value' => \Yii::$app->user->identity->id],
         ];
     }
 
@@ -182,4 +184,21 @@ class Post extends ActiveRecord
         ];
     }
 
+    /**
+     *
+     * @inheritdoc
+     */
+    public static function getOwnerAccessPermission()
+    {
+        return 'accessAllPosts';
+    }
+
+    /**
+     *
+     * @inheritdoc
+     */
+    public static function getOwnerField()
+    {
+        return 'author_id';
+    }
 }

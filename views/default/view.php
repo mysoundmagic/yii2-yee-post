@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'method' => 'post',
                     ],
                 ]) ?>
-                
+
                 <?= Html::a('Add New', ['/post/default/create'], ['class' => 'btn btn-sm btn-primary pull-right']) ?>
             </p>
 
