@@ -11,7 +11,9 @@ Post module lets you easily create posts on your site.
 Installation
 ------------
 
-Either run
+- Install [Yee Media Module](https://github.com/yeesoft/yii2-yee-media) if it is not installed yet.
+
+- Either run
 
 ```
 composer require --prefer-dist yeesoft/yii2-yee-post "*"
@@ -25,6 +27,12 @@ or add
 
 to the require section of your `composer.json` file.
 
+- Run migrations
+
+```php
+yii migrate --migrationPath=@vendor/yeesoft/yii2-yee-post/migrations/
+```
+
 Configuration
 ------
 - In your backend config file
@@ -35,12 +43,6 @@ Configuration
 		'class' => 'yeesoft\post\PostModule',
 	],
 ],
-```
-
-- Run migrations
-
-```php
-yii migrate --migrationPath=@vendor/yeesoft/yii2-yee-post/migrations/
 ```
 
 Dashboard widget
