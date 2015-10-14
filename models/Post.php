@@ -78,7 +78,7 @@ class Post extends ActiveRecord implements OwnerAccess
             [['slug'], 'string', 'max' => 200],
             ['published_at', 'date', 'timestampAttribute' => 'published_at'],
             ['published_at', 'default', 'value' => time()],
-            ['author_id', 'default', 'value' => \Yii::$app->user->identity->id],
+            //['author_id', 'default', 'value' => \Yii::$app->user->identity->id],
         ];
     }
 
