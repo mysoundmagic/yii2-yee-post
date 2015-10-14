@@ -1,9 +1,11 @@
 <?php
 
 use yeesoft\helpers\Html;
+use yeesoft\helpers\LanguageHelper;
 use yeesoft\media\widgets\TinyMce;
 use yeesoft\models\User;
 use yeesoft\post\models\Post;
+use yeesoft\widgets\LanguagePills;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
 
@@ -27,11 +29,25 @@ use yii\widgets\ActiveForm;
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                    <?php if (LanguageHelper::isMultilingual($model)): ?>
+                        <?= LanguagePills::widget() ?>
+                    <?php endif; ?>
 
                     <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
 
-                    <?= $form->field($model, 'content')->widget(TinyMce::className()); ?>
+                    <?php $languages = LanguageHelper::getModelLanguages($model); ?>
+                    <?php $defaultLanguage = Yii::$app->language; ?>
+
+                    <div class="tab-content">
+                        <?php foreach ($languages as $key => $language): ?>
+                            <?php $_prefix = (($defaultLanguage == $key) ? '' : '_' . $key) ?>
+                            <?php $_class = (($defaultLanguage == $key) ? 'active' : '') ?>
+                            <div id="<?= $key ?>" class="tab-pane in <?= $_class ?>">
+                                <?= $form->field($model, 'title' . $_prefix)->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($model, 'content' . $_prefix)->widget(TinyMce::className()); ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
 
                 </div>
 
@@ -65,22 +81,17 @@ use yii\widgets\ActiveForm;
                             <?php if ($model->isNewRecord): ?>
                                 <?= Html::submitButton('<span class="glyphicon glyphicon-plus-sign"></span> Create', ['class' => 'btn btn-primary']) ?>
 
-                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Cancel',
-                                    ['/post/default/index'],
-                                    ['class' => 'btn btn-default']
-                                ) ?>
+                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Cancel', ['/post/default/index'], ['class' => 'btn btn-default']) ?>
                             <?php else: ?>
                                 <?= Html::submitButton('<span class="glyphicon glyphicon-ok"></span> Save', ['class' => 'btn btn-primary']) ?>
 
-                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Delete',
-                                    ['/post/default/delete', 'id' => $model->id],
-                                    [
-                                        'class' => 'btn btn-default',
-                                        'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
-                                            'method' => 'post',
-                                        ],
-                                    ]) ?>
+                                <?= Html::a('<span class="glyphicon glyphicon-remove"></span> Delete', ['/post/default/delete', 'id' => $model->id], [
+                                    'class' => 'btn btn-default',
+                                    'data' => [
+                                        'confirm' => 'Are you sure you want to delete this item?',
+                                        'method' => 'post',
+                                    ],
+                                ]) ?>
                             <?php endif; ?>
                         </div>
                     </div>

@@ -44,7 +44,7 @@ class PostSearch extends Post
      */
     public function search($params)
     {
-        $query = Post::find();
+        $query = Post::find()->joinWith('translations');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

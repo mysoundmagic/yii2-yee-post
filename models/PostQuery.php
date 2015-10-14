@@ -2,6 +2,8 @@
 
 namespace yeesoft\post\models;
 
+use omgdef\multilingual\MultilingualTrait;
+
 /**
  * This is the ActiveQuery class for [[Post]].
  *
@@ -9,6 +11,8 @@ namespace yeesoft\post\models;
  */
 class PostQuery extends \yii\db\ActiveQuery
 {
+
+    use MultilingualTrait;
 
     public function active()
     {

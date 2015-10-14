@@ -2,6 +2,7 @@
 
 namespace yeesoft\post\models;
 
+use yeesoft\behaviors\MultilingualBehavior;
 use yeesoft\models\OwnerAccess;
 use yeesoft\models\User;
 use yii\behaviors\TimestampBehavior;
@@ -24,7 +25,6 @@ use yii\db\ActiveRecord;
  */
 class Post extends ActiveRecord implements OwnerAccess
 {
-
     const STATUS_PENDING = 0;
     const STATUS_PUBLISHED = 1;
     const COMMENT_STATUS_CLOSED = 0;
@@ -54,6 +54,14 @@ class Post extends ActiveRecord implements OwnerAccess
     {
         return [
             TimestampBehavior::className(),
+            'multilingual' => [
+                'class' => MultilingualBehavior::className(),
+                'langForeignKey' => 'post_id',
+                'tableName' => "{{%post_lang}}",
+                'attributes' => [
+                    'title', 'content',
+                ]
+            ],
         ];
     }
 
