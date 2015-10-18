@@ -28,7 +28,7 @@ class m150630_121101_create_post_table extends Migration
 
         $this->createIndex('post_slug', 'post', 'slug');
         $this->createIndex('post_status', 'post', 'status');
-        $this->createIndex('post_author', 'post', 'author_id');
+        $this->createIndex('post_author', 'post', 'created_by');
 
         $this->createTable('post_lang', [
             'id' => 'pk',
