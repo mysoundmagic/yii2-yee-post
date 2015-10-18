@@ -5,6 +5,9 @@ namespace yeesoft\post\models;
 use yeesoft\behaviors\MultilingualBehavior;
 use yeesoft\models\OwnerAccess;
 use yeesoft\models\User;
+use yeesoft\Yee;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -12,7 +15,8 @@ use yii\db\ActiveRecord;
  * This is the model class for table "post".
  *
  * @property integer $id
- * @property integer $author
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property string $slug
  * @property string $title
  * @property integer $status
@@ -54,6 +58,11 @@ class Post extends ActiveRecord implements OwnerAccess
     {
         return [
             TimestampBehavior::className(),
+            BlameableBehavior::className(),
+            'sluggable' => [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'title',
+            ],
             'multilingual' => [
                 'class' => MultilingualBehavior::className(),
                 'langForeignKey' => 'post_id',
@@ -71,14 +80,13 @@ class Post extends ActiveRecord implements OwnerAccess
     public function rules()
     {
         return [
-            [['title', 'content'], 'required'],
-            [['author_id', 'status', 'comment_status', 'revision'], 'integer'],
+            [['title'], 'required'],
+            [['created_by', 'updated_by', 'status', 'comment_status', 'revision'], 'integer'],
             [['title', 'content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 200],
             ['published_at', 'date', 'timestampAttribute' => 'published_at'],
             ['published_at', 'default', 'value' => time()],
-            //['author_id', 'default', 'value' => \Yii::$app->user->identity->id],
         ];
     }
 
@@ -88,17 +96,18 @@ class Post extends ActiveRecord implements OwnerAccess
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'author_id' => 'Author',
-            'slug' => 'Slug',
-            'title' => 'Title',
-            'status' => 'Status',
-            'comment_status' => 'Comment Status',
-            'content' => 'Content',
-            'published_at' => 'Published',
-            'created_at' => 'Created',
-            'updated_at' => 'Last Update',
-            'revision' => 'Revision',
+            'id' => Yee::t('yee', 'ID'),
+            'created_by' => Yee::t('yee', 'Author'),
+            'updated_by' => Yee::t('yee', 'Updated By'),
+            'slug' => Yee::t('yee', 'Slug'),
+            'title' => Yee::t('yee', 'Title'),
+            'status' => Yee::t('yee', 'Status'),
+            'comment_status' => Yee::t('yee', 'Comment Status'),
+            'content' => Yee::t('yee', 'Content'),
+            'published_at' => Yee::t('yee', 'Published'),
+            'created_at' => Yee::t('yee', 'Created'), '',
+            'updated_at' => Yee::t('yee', 'Updated'),
+            'revision' => Yee::t('yee', 'Revision'),
         ];
     }
 
@@ -113,7 +122,12 @@ class Post extends ActiveRecord implements OwnerAccess
 
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    public function getUpdatedBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
 
     public function getPublishedDate()
@@ -207,6 +221,6 @@ class Post extends ActiveRecord implements OwnerAccess
      */
     public static function getOwnerField()
     {
-        return 'author_id';
+        return 'created_by';
     }
 }

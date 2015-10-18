@@ -21,7 +21,7 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'author_id', 'status', 'comment_status', 'revision'], 'integer'],
+            [['id', 'created_by', 'updated_by', 'status', 'comment_status', 'revision'], 'integer'],
             [['published_at_operand', 'slug', 'title', 'content', 'published_at', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -61,14 +61,13 @@ class PostSearch extends Post
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'author_id' => $this->author_id,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
             'status' => $this->status,
             'comment_status' => $this->comment_status,
             'created_at' => $this->created_at,

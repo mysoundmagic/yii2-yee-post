@@ -6,6 +6,8 @@ use yeesoft\grid\GridView;
 use yeesoft\helpers\Html;
 use yeesoft\models\User;
 use yeesoft\post\models\Post;
+use yeesoft\post\PostModule;
+use yeesoft\Yee;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
@@ -13,7 +15,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel yeesoft\post\models\search\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Posts';
+$this->title = PostModule::t('post', 'Posts');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
@@ -21,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-sm-12">
             <h3 class="lte-hide-title page-title"><?= Html::encode($this->title) ?></h3>
-            <?= Html::a('Add New', ['/post/default/create'], ['class' => 'btn btn-sm btn-primary']) ?>
+            <?= Html::a(Yee::t('yee', 'Add New'), ['/post/default/create'], ['class' => 'btn btn-sm btn-primary']) ?>
         </div>
     </div>
 
@@ -30,17 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="row">
                 <div class="col-sm-6">
-                    <?=
-                    GridQuickLinks::widget([
+                    <?= GridQuickLinks::widget([
                         'model' => Post::class,
                         'searchModel' => $searchModel,
                         'labels' => [
-                            'all' => 'All',
-                            'active' => 'Published',
-                            'inactive' => 'Pending',
+                            'all' => Yee::t('yee', 'All'),
+                            'active' => Yee::t('yee', 'Published'),
+                            'inactive' => Yee::t('yee', 'Pending'),
                         ]
-                    ])
-                    ?>
+                    ]) ?>
                 </div>
 
                 <div class="col-sm-6 text-right">
@@ -62,9 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkActionOptions' => [
                     'gridId' => 'post-grid',
                     'actions' => [
-                        Url::to(['bulk-activate']) => 'Publish',
-                        Url::to(['bulk-deactivate']) => 'Unpublish',
-                        Url::to(['bulk-delete']) => 'Delete',
+                        Url::to(['bulk-activate']) => Yee::t('yee', 'Publish'),
+                        Url::to(['bulk-deactivate']) => Yee::t('yee', 'Unpublish'),
+                        Url::to(['bulk-delete']) => Yii::t('yii', 'Delete'),
                     ]
                 ],
                 'columns' => [
@@ -77,12 +77,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
                     [
-                        'attribute' => 'author_id',
+                        'attribute' => 'created_by',
                         'filter' => yeesoft\models\User::getUsersList(),
                         'filterInputOptions' => [],
                         'value' => function (Post $model) {
                             return Html::a($model->author->username,
-                                ['/user/default/view', 'id' => $model->author_id],
+                                ['/user/default/view', 'id' => $model->created_by],
                                 ['data-pjax' => 0]);
                         },
                         'format' => 'raw',

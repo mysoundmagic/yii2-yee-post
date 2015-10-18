@@ -2,13 +2,15 @@
 
 use yeesoft\helpers\Html;
 use yeesoft\models\User;
+use yeesoft\post\PostModule;
+use yeesoft\Yee;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => PostModule::t('post', 'Posts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-view">
@@ -19,17 +21,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-body">
 
             <p>
-                <?= Html::a('Edit', ['/post/default/update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
+                <?= Html::a(Yee::t('yee', 'Edit'), ['/post/default/update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
 
-                <?= Html::a('Delete', ['/post/default/delete', 'id' => $model->id], [
+                <?= Html::a(Yee::t('yee', 'Delete'), ['/post/default/delete', 'id' => $model->id], [
                     'class' => 'btn btn-sm btn-default',
                     'data' => [
-                        'confirm' => 'Are you sure you want to delete this user?',
+                        'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                         'method' => 'post',
                     ],
                 ]) ?>
 
-                <?= Html::a('Add New', ['/post/default/create'], ['class' => 'btn btn-sm btn-primary pull-right']) ?>
+                <?= Html::a(Yee::t('yee', 'Add New'), ['/post/default/create'], ['class' => 'btn btn-sm btn-primary pull-right']) ?>
             </p>
 
 
