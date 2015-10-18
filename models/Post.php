@@ -177,8 +177,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getStatusList()
     {
         return [
-            self::STATUS_PENDING => 'Pending',
-            self::STATUS_PUBLISHED => 'Published'
+            self::STATUS_PENDING => Yee::t('yee', 'Pending'),
+            self::STATUS_PUBLISHED => Yee::t('yee', 'Published'),
         ];
     }
 
@@ -189,8 +189,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getStatusOptionsList()
     {
         return [
-            [self::STATUS_PENDING, 'Pending', 'default'],
-            [self::STATUS_PUBLISHED, 'Published', 'primary']
+            [self::STATUS_PENDING, Yee::t('yee', 'Pending'), 'default'],
+            [self::STATUS_PUBLISHED, Yee::t('yee', 'Published'), 'primary']
         ];
     }
 

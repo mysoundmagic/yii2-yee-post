@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 
-$this->title = Yee::t('yee', 'Create') . ' ' . PostModule::t('post', 'Post');
+$this->title = Yee::t('yee', 'Create {item}', ['item' => PostModule::t('post', 'Post')]);
 $this->params['breadcrumbs'][] = ['label' => PostModule::t('post', 'Posts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
