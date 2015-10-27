@@ -201,8 +201,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getCommentStatusList()
     {
         return [
-            self::COMMENT_STATUS_OPEN => 'Open',
-            self::COMMENT_STATUS_CLOSED => 'Closed'
+            self::COMMENT_STATUS_OPEN => Yee::t('yee', 'Open'),
+            self::COMMENT_STATUS_CLOSED => Yee::t('yee', 'Closed')
         ];
     }
 
