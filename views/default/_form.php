@@ -7,10 +7,7 @@ use yeesoft\models\User;
 use yeesoft\post\models\Post;
 use yeesoft\widgets\ActiveForm;
 use yeesoft\widgets\LanguagePills;
-use yeesoft\Yee;
 use yii\jui\DatePicker;
-
-//use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model yeesoft\post\models\Post */
@@ -52,11 +49,19 @@ use yii\jui\DatePicker;
                 <div class="panel-body">
                     <div class="record-info">
                         <?php if (!$model->isNewRecord): ?>
+                        
                             <div class="form-group clearfix">
                                 <label class="control-label" style="float: left; padding-right: 5px;">
                                     <?= $model->attributeLabels()['created_at'] ?> :
                                 </label>
-                                <span><?= $model->createdDate ?></span>
+                                <span><?= "{$model->createdDate} {$model->createdTime}" ?></span>
+                            </div>
+
+                            <div class="form-group clearfix">
+                                <label class="control-label" style="float: left; padding-right: 5px;">
+                                    <?= $model->attributeLabels()['updated_at'] ?> :
+                                </label>
+                                <span><?= "{$model->updatedDate} {$model->updatedTime}" ?></span>
                             </div>
 
                             <div class="form-group clearfix">
@@ -66,30 +71,15 @@ use yii\jui\DatePicker;
                                 <span><?= $model->updatedBy->username ?></span>
                             </div>
 
-                            <div class="form-group clearfix">
-                                <label class="control-label" style="float: left; padding-right: 5px;">
-                                    <?= $model->attributeLabels()['updated_at'] ?> :
-                                </label>
-                                <span><?= $model->updatedTime ?></span>
-                            </div>
-
-                            <div class="form-group clearfix">
-                                <label class="control-label" style="float: left; padding-right: 5px;">
-                                    <?= $model->attributeLabels()['revision'] ?> :
-                                </label>
-                                <span><?= $model->getRevision() ?></span>
-                            </div>
                         <?php endif; ?>
 
                         <div class="form-group">
                             <?php if ($model->isNewRecord): ?>
-                                <?= Html::submitButton(Yee::t('yee', 'Create'), ['class' => 'btn btn-primary']) ?>
-
-                                <?= Html::a(Yee::t('yee', 'Cancel'), ['/post/default/index'], ['class' => 'btn btn-default']) ?>
+                                <?= Html::submitButton(Yii::t('yee', 'Create'), ['class' => 'btn btn-primary']) ?>
+                                <?= Html::a(Yii::t('yee', 'Cancel'), ['/post/default/index'], ['class' => 'btn btn-default']) ?>
                             <?php else: ?>
-                                <?= Html::submitButton(Yee::t('yee', 'Save'), ['class' => 'btn btn-primary']) ?>
-
-                                <?= Html::a(Yee::t('yee', 'Delete'), ['/post/default/delete', 'id' => $model->id], [
+                                <?= Html::submitButton(Yii::t('yee', 'Save'), ['class' => 'btn btn-primary']) ?>
+                                <?= Html::a(Yii::t('yee', 'Delete'), ['/post/default/delete', 'id' => $model->id], [
                                     'class' => 'btn btn-default',
                                     'data' => [
                                         'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
@@ -106,7 +96,8 @@ use yii\jui\DatePicker;
                 <div class="panel-body">
 
                     <div class="record-info">
-                        <?= $form->field($model, 'published_at')->widget(DatePicker::className(), ['options' => ['class' => 'form-control']]); ?>
+                        <?= $form->field($model, 'published_at')
+                                ->widget(DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]); ?>
 
                         <?= $form->field($model, 'status')->dropDownList(Post::getStatusList(), ['class' => '']) ?>
 

@@ -5,7 +5,7 @@ namespace yeesoft\post\models;
 use yeesoft\behaviors\MultilingualBehavior;
 use yeesoft\models\OwnerAccess;
 use yeesoft\models\User;
-use yeesoft\Yee;
+use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -85,7 +85,7 @@ class Post extends ActiveRecord implements OwnerAccess
             [['title', 'content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 200],
-            ['published_at', 'date', 'timestampAttribute' => 'published_at'],
+            ['published_at', 'date', 'timestampAttribute' => 'published_at', 'format' => 'yyyy-MM-dd'],
             ['published_at', 'default', 'value' => time()],
         ];
     }
@@ -96,18 +96,18 @@ class Post extends ActiveRecord implements OwnerAccess
     public function attributeLabels()
     {
         return [
-            'id' => Yee::t('yee', 'ID'),
-            'created_by' => Yee::t('yee', 'Author'),
-            'updated_by' => Yee::t('yee', 'Updated By'),
-            'slug' => Yee::t('yee', 'Slug'),
-            'title' => Yee::t('yee', 'Title'),
-            'status' => Yee::t('yee', 'Status'),
-            'comment_status' => Yee::t('yee', 'Comment Status'),
-            'content' => Yee::t('yee', 'Content'),
-            'published_at' => Yee::t('yee', 'Published'),
-            'created_at' => Yee::t('yee', 'Created'), '',
-            'updated_at' => Yee::t('yee', 'Updated'),
-            'revision' => Yee::t('yee', 'Revision'),
+            'id' => Yii::t('yee', 'ID'),
+            'created_by' => Yii::t('yee', 'Author'),
+            'updated_by' => Yii::t('yee', 'Updated By'),
+            'slug' => Yii::t('yee', 'Slug'),
+            'title' => Yii::t('yee', 'Title'),
+            'status' => Yii::t('yee', 'Status'),
+            'comment_status' => Yii::t('yee', 'Comment Status'),
+            'content' => Yii::t('yee', 'Content'),
+            'published_at' => Yii::t('yee', 'Published'),
+            'created_at' => Yii::t('yee', 'Created'), '',
+            'updated_at' => Yii::t('yee', 'Updated'),
+            'revision' => Yii::t('yee', 'Revision'),
         ];
     }
 
@@ -132,22 +132,32 @@ class Post extends ActiveRecord implements OwnerAccess
 
     public function getPublishedDate()
     {
-        return date('Y-m-d', ($this->isNewRecord) ? time() : $this->published_at);
-    }
-
-    public function getUpdatedDate()
-    {
-        return date('Y-m-d', ($this->isNewRecord) ? time() : $this->updated_at);
-    }
-
-    public function getUpdatedTime()
-    {
-        return date('Y-m-d H:i', ($this->isNewRecord) ? time() : $this->updated_at);
+        return date(Yii::$app->settings->get('general.dateformat'), ($this->isNewRecord) ? time() : $this->published_at);
     }
 
     public function getCreatedDate()
     {
-        return date('Y-m-d', ($this->isNewRecord) ? time() : $this->created_at);
+        return date(Yii::$app->settings->get('general.dateformat'), ($this->isNewRecord) ? time() : $this->created_at);
+    }
+
+    public function getUpdatedDate()
+    {
+        return date(Yii::$app->settings->get('general.dateformat'), ($this->isNewRecord) ? time() : $this->updated_at);
+    }
+
+    public function getPublishedTime()
+    {
+        return date(Yii::$app->settings->get('general.timeformat'), ($this->isNewRecord) ? time() : $this->published_at);
+    }
+
+    public function getCreatedTime()
+    {
+        return date(Yii::$app->settings->get('general.timeformat'), ($this->isNewRecord) ? time() : $this->created_at);
+    }
+
+    public function getUpdatedTime()
+    {
+        return date(Yii::$app->settings->get('general.timeformat'), ($this->isNewRecord) ? time() : $this->updated_at);
     }
 
     public function getStatusText()
@@ -177,8 +187,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getStatusList()
     {
         return [
-            self::STATUS_PENDING => Yee::t('yee', 'Pending'),
-            self::STATUS_PUBLISHED => Yee::t('yee', 'Published'),
+            self::STATUS_PENDING => Yii::t('yee', 'Pending'),
+            self::STATUS_PUBLISHED => Yii::t('yee', 'Published'),
         ];
     }
 
@@ -189,8 +199,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getStatusOptionsList()
     {
         return [
-            [self::STATUS_PENDING, Yee::t('yee', 'Pending'), 'default'],
-            [self::STATUS_PUBLISHED, Yee::t('yee', 'Published'), 'primary']
+            [self::STATUS_PENDING, Yii::t('yee', 'Pending'), 'default'],
+            [self::STATUS_PUBLISHED, Yii::t('yee', 'Published'), 'primary']
         ];
     }
 
@@ -201,8 +211,8 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function getCommentStatusList()
     {
         return [
-            self::COMMENT_STATUS_OPEN => Yee::t('yee', 'Open'),
-            self::COMMENT_STATUS_CLOSED => Yee::t('yee', 'Closed')
+            self::COMMENT_STATUS_OPEN => Yii::t('yee', 'Open'),
+            self::COMMENT_STATUS_CLOSED => Yii::t('yee', 'Closed')
         ];
     }
 
@@ -210,9 +220,9 @@ class Post extends ActiveRecord implements OwnerAccess
      *
      * @inheritdoc
      */
-    public static function getOwnerAccessPermission()
+    public static function getFullAccessPermission()
     {
-        return 'accessAllPosts';
+        return 'fullPostAccess';
     }
 
     /**

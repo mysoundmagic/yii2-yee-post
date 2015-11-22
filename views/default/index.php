@@ -6,8 +6,6 @@ use yeesoft\grid\GridView;
 use yeesoft\helpers\Html;
 use yeesoft\models\User;
 use yeesoft\post\models\Post;
-use yeesoft\post\PostModule;
-use yeesoft\Yee;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
@@ -15,7 +13,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel yeesoft\post\models\search\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = PostModule::t('post', 'Posts');
+$this->title = Yii::t('yee/post', 'Posts');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
@@ -23,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-sm-12">
             <h3 class="lte-hide-title page-title"><?= Html::encode($this->title) ?></h3>
-            <?= Html::a(Yee::t('yee', 'Add New'), ['/post/default/create'], ['class' => 'btn btn-sm btn-primary']) ?>
+            <?= Html::a(Yii::t('yee', 'Add New'), ['/post/default/create'], ['class' => 'btn btn-sm btn-primary']) ?>
         </div>
     </div>
 
@@ -36,9 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'model' => Post::class,
                         'searchModel' => $searchModel,
                         'labels' => [
-                            'all' => Yee::t('yee', 'All'),
-                            'active' => Yee::t('yee', 'Published'),
-                            'inactive' => Yee::t('yee', 'Pending'),
+                            'all' => Yii::t('yee', 'All'),
+                            'active' => Yii::t('yee', 'Published'),
+                            'inactive' => Yii::t('yee', 'Pending'),
                         ]
                     ]) ?>
                 </div>
@@ -62,8 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkActionOptions' => [
                     'gridId' => 'post-grid',
                     'actions' => [
-                        Url::to(['bulk-activate']) => Yee::t('yee', 'Publish'),
-                        Url::to(['bulk-deactivate']) => Yee::t('yee', 'Unpublish'),
+                        Url::to(['bulk-activate']) => Yii::t('yee', 'Publish'),
+                        Url::to(['bulk-deactivate']) => Yii::t('yee', 'Unpublish'),
                         Url::to(['bulk-delete']) => Yii::t('yii', 'Delete'),
                     ]
                 ],

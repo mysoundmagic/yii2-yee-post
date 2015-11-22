@@ -26,7 +26,7 @@ class m150825_202231_add_post_permissions extends Migration
         $this->insert('auth_item', ['name' => '/admin/post/default/update', 'type' => '3', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
         $this->insert('auth_item', ['name' => '/admin/post/default/view', 'type' => '3', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
 
-        $this->insert('auth_item', ['name' => 'accessAllPosts', 'type' => '2', 'description' => 'Manage other users\' posts', 'group_code' => 'postManagement', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
+        $this->insert('auth_item', ['name' => 'fullPostAccess', 'type' => '2', 'description' => 'Manage other users\' posts', 'group_code' => 'postManagement', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
         $this->insert('auth_item', ['name' => 'viewPosts', 'type' => '2', 'description' => 'View posts', 'group_code' => 'postManagement', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
         $this->insert('auth_item', ['name' => 'editPosts', 'type' => '2', 'description' => 'Edit posts', 'group_code' => 'postManagement', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
         $this->insert('auth_item', ['name' => 'deletePosts', 'type' => '2', 'description' => 'Delete posts', 'group_code' => 'postManagement', 'created_at' => '1440180000', 'updated_at' => '1440180000']);
@@ -53,7 +53,7 @@ class m150825_202231_add_post_permissions extends Migration
         $this->insert('auth_item_child', ['parent' => 'author', 'child' => 'viewPosts']);
         $this->insert('auth_item_child', ['parent' => 'author', 'child' => 'editPosts']);
         $this->insert('auth_item_child', ['parent' => 'moderator', 'child' => 'deletePosts']);
-        $this->insert('auth_item_child', ['parent' => 'moderator', 'child' => 'accessAllPosts']);
+        $this->insert('auth_item_child', ['parent' => 'moderator', 'child' => 'fullPostAccess']);
     }
 
     public function down()
@@ -63,7 +63,7 @@ class m150825_202231_add_post_permissions extends Migration
         $this->delete('auth_item_child', ['parent' => 'author', 'child' => 'viewPosts']);
         $this->delete('auth_item_child', ['parent' => 'author', 'child' => 'editPosts']);
         $this->delete('auth_item_child', ['parent' => 'moderator', 'child' => 'deletePosts']);
-        $this->delete('auth_item_child', ['parent' => 'moderator', 'child' => 'accessAllPosts']);
+        $this->delete('auth_item_child', ['parent' => 'moderator', 'child' => 'fullPostAccess']);
 
         $this->delete('auth_item_child', ['parent' => 'createPosts', 'child' => 'viewPosts']);
         $this->delete('auth_item_child', ['parent' => 'deletePosts', 'child' => 'viewPosts']);
@@ -81,7 +81,7 @@ class m150825_202231_add_post_permissions extends Migration
         $this->delete('auth_item_child', ['parent' => 'editPosts', 'child' => '/admin/post/default/update']);
         $this->delete('auth_item_child', ['parent' => 'viewPosts', 'child' => '/admin/post/default/view']);
 
-        $this->delete('auth_item', ['name' => 'accessAllPosts']);
+        $this->delete('auth_item', ['name' => 'fullPostAccess']);
         $this->delete('auth_item', ['name' => 'viewPosts']);
         $this->delete('auth_item', ['name' => 'editPosts']);
         $this->delete('auth_item', ['name' => 'deletePosts']);

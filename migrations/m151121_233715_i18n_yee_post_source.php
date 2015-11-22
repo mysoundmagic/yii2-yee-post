@@ -1,0 +1,20 @@
+<?php
+
+use yeesoft\i18n\SourceMessagesMigration;
+
+class m151121_233715_i18n_yee_post_source extends SourceMessagesMigration
+{
+
+    public function getCategory()
+    {
+        return 'yee/post';
+    }
+
+    public function getMessages()
+    {
+        return [
+            'Post' => 1,
+            'Posts' => 1,
+        ];
+    }
+}
