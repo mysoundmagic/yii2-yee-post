@@ -5,26 +5,11 @@ namespace yeesoft\post\widgets\dashboard;
 use yeesoft\models\User;
 use yeesoft\post\models\Post;
 use yeesoft\post\models\search\PostSearch;
+use yeesoft\widgets\DashboardWidget;
+use Yii;
 
-class Posts extends \yii\base\Widget
+class Posts extends DashboardWidget
 {
-    /**
-     * Widget height
-     */
-    public $height = 'auto';
-
-    /**
-     * Widget width
-     */
-    public $width = '8';
-
-    /**
-     * Widget position
-     *
-     * @var string
-     */
-    public $position = 'left';
-
     /**
      * Most recent post limit
      */
@@ -40,13 +25,14 @@ class Posts extends \yii\base\Widget
      *
      * @var array
      */
-    public $options = [
-        ['label' => 'Published', 'icon' => 'ok', 'filterWhere' => ['status' => Post::STATUS_PUBLISHED]],
-        ['label' => 'Pending', 'icon' => 'search', 'filterWhere' => ['status' => Post::STATUS_PENDING]],
-    ];
+    public $options;
 
     public function run()
     {
+        if (!$this->options) {
+            $this->options = $this->getDefaultOptions();
+        }
+
         if (User::hasPermission('viewPosts')) {
             $searchModel = new PostSearch();
             $formName = $searchModel->formName();
@@ -67,5 +53,13 @@ class Posts extends \yii\base\Widget
                 'recentPosts' => $recentPosts,
             ]);
         }
+    }
+
+    public function getDefaultOptions()
+    {
+        return [
+            ['label' => Yii::t('yee', 'Published'), 'icon' => 'ok', 'filterWhere' => ['status' => Post::STATUS_PUBLISHED]],
+            ['label' => Yii::t('yee', 'Pending'), 'icon' => 'search', 'filterWhere' => ['status' => Post::STATUS_PENDING]],
+        ];
     }
 }

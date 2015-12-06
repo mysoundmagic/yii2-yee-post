@@ -49,19 +49,19 @@ use yii\jui\DatePicker;
                 <div class="panel-body">
                     <div class="record-info">
                         <?php if (!$model->isNewRecord): ?>
-                        
+
                             <div class="form-group clearfix">
                                 <label class="control-label" style="float: left; padding-right: 5px;">
                                     <?= $model->attributeLabels()['created_at'] ?> :
                                 </label>
-                                <span><?= "{$model->createdDate} {$model->createdTime}" ?></span>
+                                <span><?= $model->createdDatetime ?></span>
                             </div>
 
                             <div class="form-group clearfix">
                                 <label class="control-label" style="float: left; padding-right: 5px;">
                                     <?= $model->attributeLabels()['updated_at'] ?> :
                                 </label>
-                                <span><?= "{$model->updatedDate} {$model->updatedTime}" ?></span>
+                                <span><?= $model->updatedDatetime ?></span>
                             </div>
 
                             <div class="form-group clearfix">
@@ -97,7 +97,7 @@ use yii\jui\DatePicker;
 
                     <div class="record-info">
                         <?= $form->field($model, 'published_at')
-                                ->widget(DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]); ?>
+                            ->widget(DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]); ?>
 
                         <?= $form->field($model, 'status')->dropDownList(Post::getStatusList(), ['class' => '']) ?>
 

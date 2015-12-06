@@ -1,6 +1,6 @@
 <?php
 
-use webvimark\extensions\GridPageSize\GridPageSize;
+use yeesoft\grid\GridPageSize;
 use yeesoft\grid\GridQuickLinks;
 use yeesoft\grid\GridView;
 use yeesoft\helpers\Html;

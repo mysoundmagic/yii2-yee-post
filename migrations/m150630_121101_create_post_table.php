@@ -15,15 +15,17 @@ class m150630_121101_create_post_table extends Migration
 
         $this->createTable('post', [
             'id' => 'pk',
-            'created_by' => Schema::TYPE_INTEGER . '(11) NOT NULL',
             'slug' => Schema::TYPE_STRING . '(200) NOT NULL DEFAULT ""',
             'status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "0" COMMENT "0-pending,1-published"',
             'comment_status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "1" COMMENT "0-closed,1-open"',
             'published_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_by' => Schema::TYPE_INTEGER . '(11) DEFAULT NULL',
+            'updated_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'created_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
+            'updated_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'revision' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT "1"',
+            'CONSTRAINT `fk_post_created_by` FOREIGN KEY (created_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
+            'CONSTRAINT `fk_post_updated_by` FOREIGN KEY (updated_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
         ], $tableOptions);
 
         $this->createIndex('post_slug', 'post', 'slug');
@@ -46,6 +48,8 @@ class m150630_121101_create_post_table extends Migration
 
     public function down()
     {
+        $this->dropForeignKey('fk_post_created_by', 'post');
+        $this->dropForeignKey('fk_post_updated_by', 'post');
         $this->dropForeignKey('fk_post_lang', 'post_lang');
         $this->dropTable('post_lang');
         $this->dropTable('post');
