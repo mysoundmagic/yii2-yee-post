@@ -10,11 +10,13 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "post".
  *
  * @property integer $id
+ * @property integer $category_id
  * @property integer $created_by
  * @property integer $updated_by
  * @property string $slug
@@ -22,6 +24,7 @@ use yii\db\ActiveRecord;
  * @property integer $status
  * @property integer $comment_status
  * @property string $content
+ * @property string $thumbnail
  * @property string $published_at
  * @property string $created_at
  * @property string $updated_at
@@ -86,8 +89,8 @@ class Post extends ActiveRecord implements OwnerAccess
     {
         return [
             [['title'], 'required'],
-            [['created_by', 'updated_by', 'status', 'comment_status', 'revision'], 'integer'],
-            [['title', 'content'], 'string'],
+            [['created_by', 'updated_by', 'status', 'comment_status', 'revision', 'category_id'], 'integer'],
+            [['title', 'content', 'thumbnail'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 200],
             ['published_at', 'date', 'timestampAttribute' => 'published_at', 'format' => 'yyyy-MM-dd'],
@@ -109,6 +112,8 @@ class Post extends ActiveRecord implements OwnerAccess
             'status' => Yii::t('yee', 'Status'),
             'comment_status' => Yii::t('yee', 'Comment Status'),
             'content' => Yii::t('yee', 'Content'),
+            'category_id' => Yii::t('yee', 'Category'),
+            'thumbnail' => Yii::t('yee/post', 'Thumbnail'),
             'published_at' => Yii::t('yee', 'Published'),
             'created_at' => Yii::t('yee', 'Created'), '',
             'updated_at' => Yii::t('yee', 'Updated'),
@@ -198,6 +203,21 @@ class Post extends ActiveRecord implements OwnerAccess
     public function updateRevision()
     {
         $this->updateCounters(['revision' => 1]);
+    }
+
+    public function getShortContent($delimiter = '<!-- pagebreak -->')
+    {
+        $content = explode($delimiter, $this->content);
+        return strip_tags($content[0]);
+    }
+
+    public function getThumbnail($options = ['class' => 'thumbnail pull-left', 'style' => 'width: 240px'])
+    {
+        if (!empty($this->thumbnail)) {
+            return Html::img($this->thumbnail, $options);
+        }
+
+        return;
     }
 
     /**
