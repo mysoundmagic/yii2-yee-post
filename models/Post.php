@@ -16,19 +16,22 @@ use yii\helpers\Html;
  * This is the model class for table "post".
  *
  * @property integer $id
- * @property integer $category_id
- * @property integer $created_by
- * @property integer $updated_by
  * @property string $slug
- * @property string $title
+ * @property integer $category_id
  * @property integer $status
  * @property integer $comment_status
- * @property string $content
  * @property string $thumbnail
- * @property string $published_at
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $published_at
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $created_by
+ * @property integer $updated_by
  * @property integer $revision
+ *
+ * @property PostCategory $category
+ * @property User $createdBy
+ * @property User $updatedBy
+ * @property PostLang[] $postLangs
  */
 class Post extends ActiveRecord implements OwnerAccess
 {
@@ -90,9 +93,10 @@ class Post extends ActiveRecord implements OwnerAccess
         return [
             [['title'], 'required'],
             [['created_by', 'updated_by', 'status', 'comment_status', 'revision', 'category_id'], 'integer'],
-            [['title', 'content', 'thumbnail'], 'string'],
+            [['title', 'content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['slug'], 'string', 'max' => 200],
+            [['slug'], 'string', 'max' => 127],
+            [['thumbnail'], 'string', 'max' => 255],
             ['published_at', 'date', 'timestampAttribute' => 'published_at', 'format' => 'yyyy-MM-dd'],
             ['published_at', 'default', 'value' => time()],
         ];
@@ -128,6 +132,14 @@ class Post extends ActiveRecord implements OwnerAccess
     public static function find()
     {
         return new PostQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     public function getAuthor()
