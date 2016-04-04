@@ -45,7 +45,7 @@ class Post extends ActiveRecord implements OwnerAccess
      */
     public static function tableName()
     {
-        return 'post';
+        return '{{%post}}';
     }
 
     /**
@@ -55,7 +55,7 @@ class Post extends ActiveRecord implements OwnerAccess
     {
         parent::init();
 
-        if ($this->isNewRecord && $this->className() == 'yeesoft\post\models\Post') {
+        if ($this->isNewRecord && $this->className() == Post::className()) {
             $this->published_at = time();
         }
 
@@ -119,7 +119,7 @@ class Post extends ActiveRecord implements OwnerAccess
             'category_id' => Yii::t('yee', 'Category'),
             'thumbnail' => Yii::t('yee/post', 'Thumbnail'),
             'published_at' => Yii::t('yee', 'Published'),
-            'created_at' => Yii::t('yee', 'Created'), '',
+            'created_at' => Yii::t('yee', 'Created'),
             'updated_at' => Yii::t('yee', 'Updated'),
             'revision' => Yii::t('yee', 'Revision'),
         ];
