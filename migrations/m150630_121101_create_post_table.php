@@ -6,7 +6,7 @@ use yii\db\Schema;
 class m150630_121101_create_post_table extends Migration
 {
 
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -17,8 +17,6 @@ class m150630_121101_create_post_table extends Migration
             'id' => 'pk',
             'slug' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
             'visible' => Schema::TYPE_INTEGER . " NOT NULL DEFAULT '1' COMMENT '0-hidden,1-visible'",
-            'view' => Schema::TYPE_STRING . "(255) NOT NULL DEFAULT 'post'",
-            'layout' => Schema::TYPE_STRING . "(255) NOT NULL DEFAULT 'main'",
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
             'created_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
@@ -85,7 +83,7 @@ class m150630_121101_create_post_table extends Migration
         $this->addForeignKey('fk_post_lang', 'post_lang', 'post_id', 'post', 'id', 'CASCADE', 'CASCADE');
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropForeignKey('fk_post_category_id', 'post');
         $this->dropForeignKey('fk_post_created_by', 'post');
