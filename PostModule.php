@@ -7,6 +7,8 @@
 
 namespace yeesoft\post;
 
+use Yii;
+
 /**
  * Post Module For Yee CMS
  *
@@ -26,5 +28,49 @@ class PostModule extends \yii\base\Module
      */
     public $post_table = '{{%post}}';
     public $controllerNamespace = 'yeesoft\post\controllers';
+
+    
+    public $viewList;
+    public $layoutsList;
+
+    public function init()
+    {
+
+
+        /**
+         * Default views and layouts
+         * Add more views and layouts in your main config file by calling the module
+         *
+         *   Example: 
+         *
+         *   'post' => [
+         *       'class' => 'yeesoft\post\PostModule',
+         *       'viewList' => [
+         *           'post' => 'View Label 1',
+         *           'post_test' => 'View Label 2',
+         *       ],
+         *       'layoutsList' => [
+         *           'main' => 'Layout Label 1',
+         *           'dark_layout' => 'Layout Label 2',
+         *       ],
+         *   ],
+         */
+        
+        if(empty($this->viewList)){
+
+            $this->viewList = [
+                'post' => Yii::t('yee', 'Post view')
+            ];
+        }
+
+        if(empty($this->layoutsList)){
+
+            $this->viewList = [
+                'main' => Yii::t('yee', 'Main layout')
+            ];
+        }
+
+        parent::init();
+    }
 
 }

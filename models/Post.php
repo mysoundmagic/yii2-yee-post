@@ -17,6 +17,8 @@ use yii\helpers\Html;
  *
  * @property integer $id
  * @property string $slug
+ * @property string $view
+ * @property string $layout
  * @property integer $category_id
  * @property integer $status
  * @property integer $comment_status
@@ -93,7 +95,7 @@ class Post extends ActiveRecord implements OwnerAccess
         return [
             [['title'], 'required'],
             [['created_by', 'updated_by', 'status', 'comment_status', 'revision', 'category_id'], 'integer'],
-            [['title', 'content'], 'string'],
+            [['title', 'content', 'view', 'layout'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['slug'], 'string', 'max' => 127],
             [['thumbnail'], 'string', 'max' => 255],
@@ -112,6 +114,8 @@ class Post extends ActiveRecord implements OwnerAccess
             'created_by' => Yii::t('yee', 'Author'),
             'updated_by' => Yii::t('yee', 'Updated By'),
             'slug' => Yii::t('yee', 'Slug'),
+            'view' => Yii::t('yee', 'View'),
+            'layout' => Yii::t('yee', 'Layout'),
             'title' => Yii::t('yee', 'Title'),
             'status' => Yii::t('yee', 'Status'),
             'comment_status' => Yii::t('yee', 'Comment Status'),
