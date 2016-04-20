@@ -39,7 +39,7 @@ class PostModule extends \yii\base\Module
      *
      * @var string
      */
-    public $thumbnailSize =  'original';
+    public $thumbnailSize =  'medium';
 
     /**
      * Default views and layouts
