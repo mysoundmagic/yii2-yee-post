@@ -32,6 +32,16 @@ class PostModule extends \yii\base\Module
     public $layoutList;
 
     /**
+     * Size of thumbnail image of the post.
+     *
+     * Expected values: 'original' or sizes from yeesoft\media\MediaModule::$thumbs,
+     * by default there are: 'small', 'medium', 'large'
+     *
+     * @var string
+     */
+    public $thumbnailSize =  'original';
+
+    /**
      * Default views and layouts
      * Add more views and layouts in your main config file by calling the module
      *
@@ -51,6 +61,10 @@ class PostModule extends \yii\base\Module
      */
     public function init()
     {
+        if(in_array($this->thumbnailSize, [])){
+            $this->thumbnailSize = 'medium';
+        }
+
         if (empty($this->viewList)) {
             $this->viewList = [
                 'post' => Yii::t('yee', 'Post view')

@@ -128,7 +128,7 @@ use yii\jui\DatePicker;
                                 'buttonOptions' => ['class' => 'btn btn-default btn-file-input'],
                                 'options' => ['class' => 'form-control'],
                                 'template' => '<div class="post-thumbnail thumbnail"></div><div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-                                'thumb' => 'medium',
+                                'thumb' => $this->context->module->thumbnailSize,
                                 'imageContainer' => '.post-thumbnail',
                                 'pasteData' => yeesoft\media\widgets\FileInput::DATA_URL,
                                 'callbackBeforeInsert' => 'function(e, data) {
