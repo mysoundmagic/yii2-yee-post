@@ -2,7 +2,6 @@
 
 namespace yeesoft\post\models;
 
-use omgdef\multilingual\MultilingualQuery;
 use paulzi\nestedintervals\NestedIntervalsBehavior;
 use yeesoft\behaviors\MultilingualBehavior;
 use yeesoft\models\OwnerAccess;
@@ -10,8 +9,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
+use yeesoft\db\ActiveRecord;
 
 /**
  * This is the model class for table "post_category".
@@ -36,7 +34,7 @@ class Category extends ActiveRecord implements OwnerAccess
      */
     public static function tableName()
     {
-        return 'post_category';
+        return '{{%post_category}}';
     }
 
     /**
@@ -111,7 +109,7 @@ class Category extends ActiveRecord implements OwnerAccess
             'description' => Yii::t('yee', 'Description'),
             'created_by' => Yii::t('yee', 'Created By'),
             'updated_by' => Yii::t('yee', 'Updated By'),
-            'created_at' => Yii::t('yee', 'Created'), '',
+            'created_at' => Yii::t('yee', 'Created'),
             'updated_at' => Yii::t('yee', 'Updated'),
         ];
     }

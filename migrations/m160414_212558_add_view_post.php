@@ -1,20 +1,20 @@
 <?php
 
 use yii\db\Migration;
-use yii\db\Schema;
 
 class m160414_212558_add_view_post extends Migration
 {
-
+    const POST_TABLE = '{{%post}}';
+    
     public function safeUp()
     {
-        $this->addColumn('post', 'view', Schema::TYPE_STRING."(255) NOT NULL DEFAULT 'post'");
-        $this->addColumn('post', 'layout', Schema::TYPE_STRING."(255) NOT NULL DEFAULT 'main'");
+        $this->addColumn(self::POST_TABLE, 'view', $this->string(255)->notNull()->defaultValue('post'));
+        $this->addColumn(self::POST_TABLE, 'layout', $this->string(255)->notNull()->defaultValue('main'));
     }
 
     public function safeDown()
     {
-        $this->dropColumn('post', 'view');
-        $this->dropColumn('post', 'layout');
+        $this->dropColumn(self::POST_TABLE, 'view');
+        $this->dropColumn(self::POST_TABLE, 'layout');
     }
 }

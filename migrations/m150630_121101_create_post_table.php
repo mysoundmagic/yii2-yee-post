@@ -1,11 +1,14 @@
 <?php
 
 use yii\db\Migration;
-use yii\db\Schema;
 
 class m150630_121101_create_post_table extends Migration
 {
-
+    const POST_TABLE = '{{%post}}';
+    const POST_LANG_TABLE = '{{%post_lang}}';
+    const POST_CATEGORY_TABLE = '{{%post_category}}';
+    const POST_CATEGORY_LANG_TABLE = '{{%post_category_lang}}';
+    
     public function safeUp()
     {
         $tableOptions = null;
@@ -13,91 +16,89 @@ class m150630_121101_create_post_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('post_category', [
-            'id' => 'pk',
-            'slug' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
-            'visible' => Schema::TYPE_INTEGER . " NOT NULL DEFAULT '1' COMMENT '0-hidden,1-visible'",
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'created_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'updated_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'left_border' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'right_border' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'KEY `post_category_slug` (`slug`)',
-            'KEY `post_category_visible` (`visible`)',
-            'CONSTRAINT `fk_post_category_created_by` FOREIGN KEY (created_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
-            'CONSTRAINT `fk_post_category_updated_by` FOREIGN KEY (updated_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
+        $this->createTable(self::POST_CATEGORY_TABLE, [
+            'id' => $this->primaryKey(),
+            'slug' => $this->string(200)->notNull(),
+            'visible' => $this->integer()->notNull()->defaultValue(1)->comment('0-hidden,1-visible'),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
+            'created_by' => $this->integer(),
+            'updated_by' => $this->integer(),
+            'left_border' => $this->integer()->notNull(),
+            'right_border' => $this->integer()->notNull(),
+            'depth' => $this->integer()->notNull(),
+        ], $tableOptions);
+        
+        $this->createIndex('post_category_slug', self::POST_CATEGORY_TABLE, 'slug');
+        $this->createIndex('post_category_visible', self::POST_CATEGORY_TABLE, 'visible');
+        $this->createIndex('left_border', self::POST_CATEGORY_TABLE, ['left_border', 'right_border']);
+        $this->createIndex('right_border', self::POST_CATEGORY_TABLE, ['right_border']);
+        $this->addForeignKey('fk_post_category_created_by', self::POST_CATEGORY_TABLE, 'created_by', '{{%user}}', 'id', 'SET NULL', 'CASCADE');
+        $this->addForeignKey('fk_post_category_updated_by', self::POST_CATEGORY_TABLE, 'updated_by', '{{%user}}', 'id', 'SET NULL', 'CASCADE');
+        $this->insert(self::POST_CATEGORY_TABLE, ['id' => 1, 'slug' => 'root', 'depth' => 0, 'created_at' => time(), 'visible' => 0, 'left_border' => 0, 'right_border' => 2147483647]);
+
+        $this->createTable(self::POST_CATEGORY_LANG_TABLE, [
+            'id' => $this->primaryKey(),
+            'post_category_id' => $this->integer(),
+            'language' => $this->string(6)->notNull(),
+            'title' => $this->string(255)->notNull(),
+            'description' => $this->text(),
+        ], $tableOptions);
+        
+        $this->createIndex('post_category_lang_id', self::POST_CATEGORY_LANG_TABLE, 'post_category_id');
+        $this->createIndex('post_category_lang_language', self::POST_CATEGORY_LANG_TABLE, 'language');
+        $this->addForeignKey('fk_post_category_lang', self::POST_CATEGORY_LANG_TABLE, 'post_category_id', self::POST_CATEGORY_TABLE, 'id', 'CASCADE', 'CASCADE');
+   
+        $this->createTable(self::POST_TABLE, [
+            'id' => $this->primaryKey(),
+            'slug' => $this->string(255)->notNull(),
+            'category_id' => $this->integer(),
+            'status' => $this->integer(1)->notNull()->defaultValue(0)->comment('0-pending,1-published'),
+            'comment_status' => $this->integer(1)->notNull()->defaultValue(1)->comment('0-closed,1-open'),
+            'thumbnail' => $this->string(255),
+            'published_at' => $this->integer(),
+            'created_at' => $this->integer(),
+            'updated_at' => $this->integer(),
+            'created_by' => $this->integer(),
+            'updated_by' => $this->integer(),
+            'revision' => $this->integer(1)->notNull()->defaultValue(1),
         ], $tableOptions);
 
-        $this->createIndex('left_border', 'post_category', ['left_border', 'right_border']);
-        $this->createIndex('right_border', 'post_category', ['right_border']);
-
-        $this->insert('post_category', ['id' => 1, 'slug' => 'root', 'depth' => 0, 'created_at' => 1455033000, 'visible' => 0, 'left_border' => 0, 'right_border' => 2147483647]);
-
-        $this->createTable('post_category_lang', [
-            'id' => 'pk',
-            'post_category_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
-            'language' => Schema::TYPE_STRING . '(6) NOT NULL',
-            'title' => Schema::TYPE_STRING . '(255) NOT NULL',
-            'description' => Schema::TYPE_TEXT,
-            'KEY `post_category_lang_id` (`post_category_id`)',
-            'KEY `post_category_lang_language` (`language`)',
-            'CONSTRAINT `fk_post_category_lang` FOREIGN KEY (`post_category_id`) REFERENCES `post_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
+        $this->createIndex('post_slug', self::POST_TABLE, 'slug');
+        $this->createIndex('post_category_id', self::POST_TABLE, 'category_id');
+        $this->createIndex('post_status', self::POST_TABLE, 'status');
+        $this->addForeignKey('fk_post_category_id', self::POST_TABLE, 'category_id', self::POST_CATEGORY_TABLE, 'id', 'SET NULL', 'CASCADE');
+        $this->addForeignKey('fk_page_created_by', self::POST_TABLE, 'created_by', '{{%user}}', 'id', 'SET NULL', 'CASCADE');
+        $this->addForeignKey('fk_page_updated_by', self::POST_TABLE, 'updated_by', '{{%user}}', 'id', 'SET NULL', 'CASCADE');
+        
+        $this->createTable(self::POST_LANG_TABLE, [
+            'id' => $this->primaryKey(),
+            'post_id' => $this->integer()->notNull(),
+            'language' => $this->string(6)->notNull(),
+            'title' => $this->text(),
+            'content' => $this->text(),
         ], $tableOptions);
 
-        $this->createTable('post', [
-            'id' => 'pk',
-            'slug' => Schema::TYPE_STRING . '(127) NOT NULL DEFAULT ""',
-            'category_id' => Schema::TYPE_INTEGER . '(11) DEFAULT NULL',
-            'status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "0" COMMENT "0-pending,1-published"',
-            'comment_status' => Schema::TYPE_INTEGER . '(1) unsigned NOT NULL DEFAULT "1" COMMENT "0-closed,1-open"',
-            'thumbnail' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
-            'published_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'created_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'updated_by' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-            'revision' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT "1"',
-            'CONSTRAINT `fk_post_category_id` FOREIGN KEY (`category_id`) REFERENCES `post_category` (`id`) ON DELETE SET NULL ON UPDATE CASCADE',
-            'CONSTRAINT `fk_post_created_by` FOREIGN KEY (created_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
-            'CONSTRAINT `fk_post_updated_by` FOREIGN KEY (updated_by) REFERENCES user (id) ON DELETE SET NULL ON UPDATE CASCADE',
-        ], $tableOptions);
-
-        $this->createIndex('post_slug', 'post', 'slug');
-        $this->createIndex('post_category_id', 'post', 'category_id');
-        $this->createIndex('post_status', 'post', 'status');
-        $this->createIndex('post_author', 'post', 'created_by');
-
-        $this->createTable('post_lang', [
-            'id' => 'pk',
-            'post_id' => Schema::TYPE_INTEGER . '(11) NOT NULL',
-            'language' => Schema::TYPE_STRING . '(6) NOT NULL',
-            'title' => Schema::TYPE_TEXT . ' NOT NULL',
-            'content' => Schema::TYPE_TEXT . ' DEFAULT NULL',
-        ], $tableOptions);
-
-
-        $this->createIndex('post_lang_post_id', 'post_lang', 'post_id');
-        $this->createIndex('post_lang_language', 'post_lang', 'language');
-        $this->addForeignKey('fk_post_lang', 'post_lang', 'post_id', 'post', 'id', 'CASCADE', 'CASCADE');
+        $this->createIndex('post_lang_post_id', self::POST_LANG_TABLE, 'post_id');
+        $this->createIndex('post_lang_language', self::POST_LANG_TABLE, 'language');
+        $this->addForeignKey('fk_post_lang', self::POST_LANG_TABLE, 'post_id', self::POST_TABLE, 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('fk_post_category_id', 'post');
-        $this->dropForeignKey('fk_post_created_by', 'post');
-        $this->dropForeignKey('fk_post_updated_by', 'post');
-        $this->dropForeignKey('fk_post_lang', 'post_lang');
+        $this->dropForeignKey('fk_post_category_id', self::POST_TABLE);
+        $this->dropForeignKey('fk_post_created_by', self::POST_TABLE);
+        $this->dropForeignKey('fk_post_updated_by', self::POST_TABLE);
+        $this->dropForeignKey('fk_post_lang', self::POST_LANG_TABLE);
 
-        $this->dropForeignKey('fk_post_category_lang', 'post_category_lang');
-        $this->dropForeignKey('fk_post_category_created_by', 'post_category');
-        $this->dropForeignKey('fk_post_category_updated_by', 'post_category');
+        $this->dropForeignKey('fk_post_category_lang', self::POST_CATEGORY_LANG_TABLE);
+        $this->dropForeignKey('fk_post_category_created_by', self::POST_CATEGORY_TABLE);
+        $this->dropForeignKey('fk_post_category_updated_by', self::POST_CATEGORY_TABLE);
 
-        $this->dropTable('post_category_lang');
-        $this->dropTable('post_category');
+        $this->dropTable(self::POST_CATEGORY_LANG_TABLE);
+        $this->dropTable(self::POST_CATEGORY_TABLE);
 
-        $this->dropTable('post_lang');
-        $this->dropTable('post');
+        $this->dropTable(self::POST_LANG_TABLE);
+        $this->dropTable(self::POST_TABLE);
     }
 }

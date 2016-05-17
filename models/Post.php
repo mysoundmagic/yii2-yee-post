@@ -9,7 +9,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use yeesoft\db\ActiveRecord;
 use yii\helpers\Html;
 
 /**

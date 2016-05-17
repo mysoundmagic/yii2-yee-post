@@ -1,14 +1,13 @@
 <?php
 
 use yeesoft\helpers\Html;
-use yeesoft\helpers\LanguageHelper;
 use yeesoft\post\models\Category;
 use yeesoft\widgets\ActiveForm;
 use yeesoft\widgets\LanguagePills;
 
 /* @var $this yii\web\View */
 /* @var $model yeesoft\post\models\Category */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yeesoft\widgets\ActiveForm */
 ?>
 
 <div class="post-category-form">
@@ -25,7 +24,7 @@ use yeesoft\widgets\LanguagePills;
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <?php if (LanguageHelper::isMultilingual($model)): ?>
+                    <?php if ($model->isMultilingual()): ?>
                         <?= LanguagePills::widget() ?>
                     <?php endif; ?>
 

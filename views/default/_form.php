@@ -1,7 +1,6 @@
 <?php
 
 use yeesoft\helpers\Html;
-use yeesoft\helpers\LanguageHelper;
 use yeesoft\media\widgets\TinyMce;
 use yeesoft\models\User;
 use yeesoft\post\models\Category;
@@ -12,7 +11,7 @@ use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model yeesoft\post\models\Post */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yeesoft\widgets\ActiveForm */
 ?>
 
     <div class="post-form">
@@ -30,7 +29,7 @@ use yii\jui\DatePicker;
                 <div class="panel panel-default">
                     <div class="panel-body">
 
-                        <?php if (LanguageHelper::isMultilingual($model)): ?>
+                        <?php if ($model->isMultilingual()): ?>
                             <?= LanguagePills::widget() ?>
                         <?php endif; ?>
 
@@ -97,22 +96,22 @@ use yii\jui\DatePicker;
                     <div class="panel-body">
 
                         <div class="record-info">
-                            <?= $form->field($model, 'category_id')->dropDownList(Category::getCategories(), ['prompt' => '', 'class' => '', 'encodeSpaces' => true]) ?>
+                            <?= $form->field($model, 'category_id')->dropDownList(Category::getCategories(), ['prompt' => '', 'encodeSpaces' => true]) ?>
 
                             <?= $form->field($model, 'published_at')
                                 ->widget(DatePicker::className(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]); ?>
 
-                            <?= $form->field($model, 'status')->dropDownList(Post::getStatusList(), ['class' => '']) ?>
+                            <?= $form->field($model, 'status')->dropDownList(Post::getStatusList()) ?>
 
                             <?php if (!$model->isNewRecord): ?>
-                                <?= $form->field($model, 'created_by')->dropDownList(User::getUsersList(), ['class' => '']) ?>
+                                <?= $form->field($model, 'created_by')->dropDownList(User::getUsersList()) ?>
                             <?php endif; ?>
 
-                            <?= $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList(), ['class' => '']) ?>
+                            <?= $form->field($model, 'comment_status')->dropDownList(Post::getCommentStatusList()) ?>
 
-                            <?= $form->field($model, 'view')->dropDownList($this->context->module->viewList, ['class' => '']) ?>
+                            <?= $form->field($model, 'view')->dropDownList($this->context->module->viewList) ?>
 
-                            <?= $form->field($model, 'layout')->dropDownList($this->context->module->layoutList, ['class' => '']) ?>
+                            <?= $form->field($model, 'layout')->dropDownList($this->context->module->layoutList) ?>
 
                         </div>
                     </div>
