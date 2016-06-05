@@ -34,6 +34,7 @@ use yii\helpers\Html;
  * @property User $createdBy
  * @property User $updatedBy
  * @property PostLang[] $postLangs
+ * @property Tag[] $tags
  */
 class Post extends ActiveRecord implements OwnerAccess
 {
@@ -144,6 +145,15 @@ class Post extends ActiveRecord implements OwnerAccess
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])
+            ->viaTable('{{%post_tag_post}}', ['post_id' => 'id']);
     }
 
     public function getAuthor()

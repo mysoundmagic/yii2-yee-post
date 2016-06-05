@@ -140,6 +140,64 @@ class m150825_202231_add_post_permissions extends PermissionsMigration
                         self::ROLE_MODERATOR,
                     ],
                 ],
+                'viewPostTags' => [
+                    'title' => 'View Tags',
+                    'links' => [
+                        '/admin/post/tag/index',
+                        '/admin/post/tag/grid-sort',
+                        '/admin/post/tag/grid-page-size',
+                    ],
+                    'roles' => [
+                        self::ROLE_AUTHOR,
+                    ],
+                    'childs' => [
+                        'viewPosts',
+                    ],
+                ],
+                'editPostTags' => [
+                    'title' => 'Edit Post Tags',
+                    'links' => [
+                        '/admin/post/tag/update',
+                        '/admin/post/tag/toggle-attribute',
+                    ],
+                    'roles' => [
+                        self::ROLE_MODERATOR,
+                    ],
+                    'childs' => [
+                        'viewPostTags',
+                    ],
+                ],
+                'createPostTags' => [
+                    'title' => 'Create Post Tags',
+                    'links' => [
+                        '/admin/post/tag/create',
+                    ],
+                    'roles' => [
+                        self::ROLE_MODERATOR,
+                    ],
+                    'childs' => [
+                        'viewPostTags',
+                    ],
+                ],
+                'deletePostTags' => [
+                    'title' => 'Delete Post Tags',
+                    'links' => [
+                        '/admin/post/tag/delete',
+                        '/admin/post/tag/bulk-delete',
+                    ],
+                    'roles' => [
+                        self::ROLE_ADMIN,
+                    ],
+                    'childs' => [
+                        'viewPostTags',
+                    ],
+                ],
+                'fullPostCategoryAccess' => [
+                    'title' => 'Full Post Tags Access',
+                    'roles' => [
+                        self::ROLE_MODERATOR,
+                    ],
+                ],
             ],
         ];
     }
