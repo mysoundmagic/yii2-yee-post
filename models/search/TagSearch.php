@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 /**
  * TagSearch represents the model behind the search form about `yeesoft\post\models\Tag`.
  */
-class TagSearch extends Category
+class TagSearch extends Tag
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class TagSearch extends Category
     public function rules()
     {
         return [
-            [['id', 'created_by', 'updated_by', 'parent_id'], 'integer'],
+            [['id', 'created_by', 'updated_by'], 'integer'],
             [['slug', 'title', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class TagSearch extends Category
      */
     public function search($params)
     {
-        $query = Category::find()->joinWith('translations');
+        $query = Tag::find()->joinWith('translations');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

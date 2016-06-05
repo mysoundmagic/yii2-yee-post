@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'yeesoft\grid\columns\TitleActionColumn',
                         'controller' => '/post/tag',
                         'title' => function (Tag $model) {
-                            return Html::a($model->title, ['/post/category/update', 'id' => $model->id], ['data-pjax' => 0]);
+                            return Html::a($model->title, ['/post/tag/update', 'id' => $model->id], ['data-pjax' => 0]);
                         },
                         'buttonsTemplate' => '{update} {delete}',
                     ],

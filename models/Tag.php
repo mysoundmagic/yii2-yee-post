@@ -4,6 +4,7 @@ namespace yeesoft\post\models;
 
 use yeesoft\behaviors\MultilingualBehavior;
 use yeesoft\models\OwnerAccess;
+use yeesoft\models\User;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -33,7 +34,7 @@ class Tag extends ActiveRecord implements OwnerAccess
      */
     public static function tableName()
     {
-        return 'post_tag';
+        return '{{%post_tag}}';
     }
     
     /**
@@ -65,9 +66,9 @@ class Tag extends ActiveRecord implements OwnerAccess
     public function rules()
     {
         return [
-            [['slug'], 'required'],
+            [['title'], 'required'],
             [['created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['slug'], 'string', 'max' => 200],
+            [['slug', 'title'], 'string', 'max' => 200],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];

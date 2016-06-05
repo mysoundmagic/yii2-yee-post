@@ -192,7 +192,7 @@ class m150825_202231_add_post_permissions extends PermissionsMigration
                         'viewPostTags',
                     ],
                 ],
-                'fullPostCategoryAccess' => [
+                'fullPostTagAccess' => [
                     'title' => 'Full Post Tags Access',
                     'roles' => [
                         self::ROLE_MODERATOR,
