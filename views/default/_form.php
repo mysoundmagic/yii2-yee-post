@@ -8,6 +8,8 @@ use yeesoft\post\models\Post;
 use yeesoft\widgets\ActiveForm;
 use yeesoft\widgets\LanguagePills;
 use yii\jui\DatePicker;
+use yeesoft\post\widgets\MagicSuggest;
+use yeesoft\post\models\Tag;
 
 /* @var $this yii\web\View */
 /* @var $model yeesoft\post\models\Post */
@@ -36,6 +38,8 @@ use yii\jui\DatePicker;
                         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
                         <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+                        
+                        <?= $form->field($model, 'tagValues')->widget(MagicSuggest::className(), ['items' => Tag::getTags()]); ?>
 
                         <?= $form->field($model, 'content')->widget(TinyMce::className()); ?>
 
@@ -146,8 +150,15 @@ use yii\jui\DatePicker;
     </div>
 <?php
 $css = <<<CSS
-.post-thumbnail {
-
+.ms-ctn .ms-sel-ctn {
+    margin-left: -6px;
+    margin-top: -2px;
+}
+.ms-ctn .ms-sel-item {
+    color: #666;
+    font-size: 14px;
+    cursor: default;
+    border: 1px solid #ccc;
 }
 CSS;
 
