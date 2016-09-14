@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ['data-pjax' => 0]);
                         },
                         'format' => 'raw',
-                        'visible' => User::hasPermission('viewUsers'),
+                        'visible' => User::hasPermission('view-Users'),
                         'options' => ['style' => 'width:180px'],
                     ],
                     [
